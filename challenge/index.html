@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>돈어디감</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="header">
+        <div class="header-top">
+          <div>
+            <p class="eyebrow">WHERE DID MY MONEY GO</p>
+            <h1>돈어디감</h1>
+            <p class="subtext">분명 있었는데… 어디로 갔을까?</p>
+          </div>
+
+          <button type="button" class="theme-toggle" id="theme-toggle">
+            🌙 다크모드
+          </button>
+        </div>
+      </header>
+
+      <main class="layout">
+        <section class="card form-card">
+          <div class="section-title-wrap">
+            <h2>돈의 이동 기록</h2>
+            <p>오늘은 또 어디로 보냈나요?</p>
+          </div>
+
+          <form id="transaction-form" class="form">
+            <input type="hidden" id="transaction-id" />
+
+            <div class="form-grid">
+              <label>
+                <span>타입</span>
+                <select id="type">
+                  <option value="expense">지출</option>
+                  <option value="income">수입</option>
+                </select>
+              </label>
+
+              <label>
+                <span>날짜</span>
+                <input type="date" id="date" />
+              </label>
+
+              <label>
+                <span>카테고리</span>
+                <select id="category"></select>
+              </label>
+
+              <label>
+                <span>금액</span>
+                <input type="number" id="amount" placeholder="예: 15000" />
+              </label>
+            </div>
+
+            <label>
+              <span>설명</span>
+              <input type="text" id="description" placeholder="예: 점심 식사" />
+            </label>
+
+            <div class="form-actions">
+              <button type="submit" class="btn primary" id="submit-btn">
+                기록하기
+              </button>
+              <button type="button" class="btn secondary" id="cancel-edit-btn">
+                취소
+              </button>
+            </div>
+          </form>
+        </section>
+
+        <section class="stats-area">
+          <div id="summary-cards" class="summary-grid"></div>
+          <div id="monthly-stats" class="card"></div>
+        </section>
+
+        <section class="card analysis-card">
+          <div id="expense-analysis"></div>
+        </section>
+
+        <section class="card controls-card">
+          <div class="section-title-wrap">
+            <h2>돈 찾기</h2>
+            <p>어디로 갔는지 다시 살펴보자.</p>
+          </div>
+
+          <div class="controls-grid">
+            <label>
+              <span>구분해서 보기</span>
+              <select id="type-filter">
+                <option value="all">전체</option>
+                <option value="income">수입만</option>
+                <option value="expense">지출만</option>
+              </select>
+            </label>
+
+            <label>
+              <span>어디에 썼는지</span>
+              <select id="category-filter">
+                <option value="all">전체</option>
+              </select>
+            </label>
+
+            <label>
+              <span>어떤 순서로 볼까</span>
+              <select id="sort-key">
+                <option value="date">날짜순</option>
+                <option value="amount">금액순</option>
+              </select>
+            </label>
+
+            <label>
+              <span>정렬 방향</span>
+              <select id="sort-order">
+                <option value="desc">최신순 / 큰 금액부터</option>
+                <option value="asc">오래된순 / 작은 금액부터</option>
+              </select>
+            </label>
+
+            <label class="search-box">
+              <span>기억나는 단서</span>
+              <div class="search-input-wrap">
+                <span class="search-icon">🔍</span>
+                <input
+                  type="text"
+                  id="search-input"
+                  placeholder="돈이 사라진 이유 찾기"
+                />
+              </div>
+            </label>
+          </div>
+        </section>
+
+        <section class="card list-card">
+          <div class="list-top">
+            <div class="section-title-wrap">
+              <h2>돈의 마지막 목격 장소</h2>
+              <p>기록된 돈의 흔적을 확인해보세요.</p>
+            </div>
+
+            <div class="list-actions">
+              <button class="btn danger" id="delete-selected-btn">
+                흔적 지우기
+              </button>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th class="col-check">
+                    <input type="checkbox" id="select-all" />
+                  </th>
+                  <th class="col-type">타입</th>
+                  <th class="col-date">날짜</th>
+                  <th class="col-category">카테고리</th>
+                  <th class="col-desc">설명</th>
+                  <th class="col-amount">금액</th>
+                  <th class="col-actions">관리</th>
+                </tr>
+              </thead>
+              <tbody id="transaction-list"></tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div id="loading-overlay" class="loading-overlay hidden">
+      <div class="spinner"></div>
+      <p>돈의 흐름 추적 중...</p>
+    </div>
+
+    <div id="toast-container" class="toast-container"></div>
+
+    <div id="confirm-modal" class="modal-overlay hidden">
+      <div
+        class="confirm-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="confirm-title"
+        aria-describedby="confirm-message"
+      >
+        <div class="confirm-icon" id="confirm-icon">⚠️</div>
+        <h3 id="confirm-title">이 기록을 지울까요?</h3>
+        <p id="confirm-message">돈의 행방이 미궁으로 빠집니다.</p>
+
+        <div class="confirm-actions">
+          <button type="button" class="btn secondary" id="confirm-cancel">
+            취소
+          </button>
+          <button type="button" class="btn danger" id="confirm-ok">확인</button>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="./js/main.js"></script>
+  </body>
+</html>

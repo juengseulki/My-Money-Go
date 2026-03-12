@@ -1,0 +1,13 @@
+{
+  "name": "income-expense-manager",
+  "version": "1.0.0",
+  "description": "수입/지출 관리 앱",
+  "main": "index.js",
+  "scripts": {
+    "server": "json-server --watch db.json --port 4000",
+    "start": "npm run server"
+  },
+  "dependencies": {
+    "json-server": "^1.0.0-beta.3"
+  }
+}

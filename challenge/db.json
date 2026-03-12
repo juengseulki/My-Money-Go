@@ -1,0 +1,79 @@
+{
+  "transactions": [
+    {
+      "id": "1",
+      "type": "expense",
+      "date": "2026-03-01",
+      "category": "식비",
+      "description": "점심 식사",
+      "amount": 14000
+    },
+    {
+      "id": "2",
+      "type": "income",
+      "date": "2026-03-01",
+      "category": "급여",
+      "description": "3월 급여",
+      "amount": 3000000
+    },
+    {
+      "id": "3",
+      "type": "expense",
+      "date": "2026-03-02",
+      "category": "교통",
+      "description": "버스 충전",
+      "amount": 50000
+    },
+    {
+      "id": "4",
+      "type": "income",
+      "date": "2026-03-05",
+      "category": "용돈",
+      "description": "부모님 지원",
+      "amount": 150000
+    }
+  ],
+  "categories": [
+    {
+      "id": "1",
+      "type": "expense",
+      "name": "식비"
+    },
+    {
+      "id": "2",
+      "type": "expense",
+      "name": "교통"
+    },
+    {
+      "id": "3",
+      "type": "expense",
+      "name": "쇼핑"
+    },
+    {
+      "id": "4",
+      "type": "expense",
+      "name": "문화"
+    },
+    {
+      "id": "5",
+      "type": "expense",
+      "name": "기타"
+    },
+    {
+      "id": "6",
+      "type": "income",
+      "name": "급여"
+    },
+    {
+      "id": "7",
+      "type": "income",
+      "name": "용돈"
+    },
+    {
+      "id": "8",
+      "type": "income",
+      "name": "기타수입"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}
